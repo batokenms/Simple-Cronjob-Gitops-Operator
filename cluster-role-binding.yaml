@@ -5,7 +5,7 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: admin
+  name: cluster-admin  # Allows full access to the cluster
 subjects:
   - kind: ServiceAccount
     name: gitops-serviceaccount
