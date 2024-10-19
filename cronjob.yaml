@@ -1,0 +1,22 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: gitops-cron
+  namespace: gitops
+spec:
+  schedule: "*/5 * * * *"  # Runs every 5 minutes
+  concurrencyPolicy: Forbid  # Ensures only one job runs at a time
+  jobTemplate:
+    spec:
+      backoffLimit: 0  # No retries on failure
+      template:
+        spec:
+          serviceAccountName: gitops-serviceaccount
+          containers:
+            - name: gitops-operator
+              image: gitopsbook/example-operator:v1.0
+              command: ["sh", "-e", "-c"]
+              args:
+                - git clone https://github.com/joshking1/nginx-operator-repository.git /tmp/example &&
+                  find /tmp/example -name '*.yaml' -exec kubectl apply -f {} \;
+          restartPolicy: Never  # Do not restart the container after the job completes
