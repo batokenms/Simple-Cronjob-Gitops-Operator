@@ -1,0 +1,7 @@
+
+kubectl apply -f namespace.yaml
+kubectl apply -f service-account.yaml
+kubectl apply -f cluster-role-binding.yaml
+kubectl apply -f cronjob.yaml
+
+
